@@ -1,31 +1,38 @@
+from buku import Buku
+from anggota import Anggota
+from peminjaman import Peminjaman
+from pengembalian import Pengembalian
+
 class Perpustakaan:
     buku_list = []
     anggota_list = []
     peminjaman_list = []
+    pengembalian_list = []
 
     def __init__(self):
         pass
 
     @classmethod
     def menu(cls):
-        print("Selamat datang di Sistem Manajemen Perpustakaan!")
-        print('''
-        1. Tambah Buku Baru
-        2. Lihat Semua Buku
-        3. Cari Buku berdasarkan ID
-
-        4. Tambah Anggota Baru
-        5. Lihat Semua Anggota
-        6. Cari Anggota berdasarkan ID
-
-        7. Pinjam Buku
-        8. Lihat Semua Peminjaman
-        9. Keluar
-        ''')
-
         while True:
+            print("Selamat datang di Sistem Manajemen Perpustakaan!")
+            print('''
+            1. Tambah Buku Baru
+            2. Lihat Semua Buku
+            3. Cari Buku berdasarkan ID
+
+            4. Tambah Anggota Baru
+            5. Lihat Semua Anggota
+            6. Cari Anggota berdasarkan ID
+
+            7. Pinjam Buku
+            8. Lihat Semua Peminjaman
+            9. Kembalikan Buku
+            10. Keluar
+            ''')
+
             try:
-                pilihan = int(input("Silakan pilih menu (1-9): "))
+                pilihan = int(input("Silakan pilih menu (1-10): "))
                 print()
                 if pilihan == 1:
                     cls.tambah_buku()
@@ -52,6 +59,9 @@ class Perpustakaan:
                     cls.lihat_peminjaman()
 
                 elif pilihan == 9:
+                    cls.kembalikan_buku()
+
+                elif pilihan == 10:
                     print("Terima kasih telah menggunakan sistem kami. Sampai jumpa!")
                     break
 
@@ -63,46 +73,45 @@ class Perpustakaan:
     # Metode Buku
     @classmethod
     def tambah_buku(cls):
-        from buku import Buku
         buku = Buku.tambah()
         cls.buku_list.append(buku)
 
     @classmethod
     def lihat_buku(cls):
-        from buku import Buku
         Buku.lihat(cls.buku_list)
 
     @classmethod
     def cari_buku(cls):
-        from buku import Buku
         Buku.cari(cls.buku_list)
 
     # Metode Anggota
     @classmethod
     def tambah_anggota(cls):
-        from anggota import Anggota
         anggota = Anggota.tambah()
         cls.anggota_list.append(anggota)
 
     @classmethod
     def lihat_anggota(cls):
-        from anggota import Anggota
         Anggota.lihat(cls.anggota_list)
 
     @classmethod
     def cari_anggota(cls):
-        from anggota import Anggota
         Anggota.cari(cls.anggota_list)
 
     # Metode Peminjaman
     @classmethod
     def pinjam_buku(cls):
-        from peminjaman import Peminjaman
         peminjaman = Peminjaman.pinjam(cls.buku_list, cls.anggota_list)
         if peminjaman:
             cls.peminjaman_list.append(peminjaman)
 
     @classmethod
     def lihat_peminjaman(cls):
-        from peminjaman import Peminjaman
         Peminjaman.lihat(cls.peminjaman_list)
+
+    # Metode Pengembalian
+    @classmethod
+    def kembalikan_buku(cls):
+        pengembalian = Pengembalian.kembalikan(cls.peminjaman_list, cls.buku_list)
+        if pengembalian:
+            cls.pengembalian_list.append(pengembalian)
